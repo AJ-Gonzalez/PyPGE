@@ -3,6 +3,7 @@ import charmap as block
 from itertools import islice, chain, repeat
 from os import system as cmd
 from time import sleep as slp
+from glob import glob
 
 
 def rowGrouper(it, size, padval=None):
@@ -70,41 +71,64 @@ def bulkFrameBuild(*args):
     return ret
 
 
-f = [
-    [0, 0, 0, 1, 1, 1],
-    [0, 0, 1, 1, 1, 1],
-    [1, 0, 1, 1, 1, 1],
-    [0, 0, 1, 1, 1, 1],
-    [0, 0, 1, 1, 1, 1],
-    [0, 0, 0, 1, 1, 1],
-]
-
-g = [
-    [0, 0, 0, 1, 0, 1],
-    [1, 1, 0, 1, 0, 0],
-    [1, 0, 1, 1, 0, 1],
-    [0, 1, 1, 1, 1, 1],
-    [1, 0, 1, 1, 0, 1],
-    [1, 1, 0, 1, 0, 1],
-]
-
-h = [
-    [1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1],
-]
-
-j = [
-    [1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 1],
-    [1, 0, 0, 1, 0, 1],
-    [1, 0, 1, 0, 0, 1],
-    [1, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1],
-]
+def frameFromFile(filename):
+    frame = []
+    with open(filename) as f:
+        for row in f:
+            r = []
+            for element in row:
+                if element in ("0", "1"):
+                    r.append(int(element))
+            frame.append(r)
+    return frame
 
 
-loopAnimation(bulkFrameBuild(f, g, h, j), 0.3, 90)
+def animationFromFolder(folder, interval, duration):
+    raw_frames = glob(folder + "/*.frame")
+    frames = []
+    for frame in raw_frames:
+        frames.append(frameFromFile(frame))
+    frames = bulkFrameBuild(*frames)
+    loopAnimation(frames, 0.33, 30)
+
+
+if __name__ == "__main__":
+    # Manually Created Frames
+    f = [
+        [0, 0, 0, 1, 1, 1],
+        [0, 0, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1, 1],
+        [0, 0, 1, 1, 1, 1],
+        [0, 0, 1, 1, 1, 1],
+        [0, 0, 0, 1, 1, 1],
+    ]
+
+    g = [
+        [0, 0, 0, 1, 0, 1],
+        [1, 1, 0, 1, 0, 0],
+        [1, 0, 1, 1, 0, 1],
+        [0, 1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 0, 1],
+        [1, 1, 0, 1, 0, 1],
+    ]
+
+    h = [
+        [1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1],
+    ]
+
+    j = [
+        [1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1, 1],
+        [1, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 0, 1],
+        [1, 1, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1],
+    ]
+    loopAnimation(bulkFrameBuild(f, g, h, j), 0.33, 5)
+    # From folder
+    animationFromFolder("test_animation", 0.2, 5)
