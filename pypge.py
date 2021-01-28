@@ -7,11 +7,31 @@ from glob import glob
 
 
 def rowGrouper(it, size, padval=None):
+    """Row Grouper:
+    Does:
+        Groups items in an iterable in chunks of size n.
+    Takes:
+        Name:   Type:       Description:
+        it      iterable    Any list, tuple, etc.
+        size    int         Chunk size.
+        padval  any         Padding Value, defaults to None.
+    Returns:
+        List object with items grouped in chunks
+    """
     it = chain(iter(it), repeat(padval))
     return list(iter(lambda: tuple(islice(it, size)), (padval,) * size))
 
 
 def renderFrame(frame):
+    """Render Frame:
+    Does:
+        Prints Character Art to stdout.
+    Takes:
+        Name:   Type:       Description:
+        frame   list        Nested list with character values.
+    Returns:
+        None.
+    """
     for y in frame:
         csr = 1
         for x in y:
