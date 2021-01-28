@@ -53,13 +53,30 @@ def simpleAnimate(frames, interval):
         cmd("clear")
 
 
+def loopAnimation(frames, interval, duration):
+    cmd("clear")
+    frame_time = duration / (interval * len(frames))
+    # print(frame_time, interval, duration)
+    count = 0
+    while count < frame_time:
+        simpleAnimate(frames, interval)
+        count += 1
+
+
+def bulkFrameBuild(*args):
+    ret = []
+    for a in args:
+        ret.append(buildFrame(a))
+    return ret
+
+
 f = [
-    [1, 0, 0, 1, 0, 1],
-    [0, 1, 0, 1, 0, 0],
-    [1, 0, 1, 1, 0, 1],
-    [0, 1, 0, 1, 0, 0],
-    [1, 1, 1, 1, 0, 1],
-    [1, 1, 0, 1, 0, 1],
+    [0, 0, 0, 1, 1, 1],
+    [0, 0, 1, 1, 1, 1],
+    [1, 0, 1, 1, 1, 1],
+    [0, 0, 1, 1, 1, 1],
+    [0, 0, 1, 1, 1, 1],
+    [0, 0, 0, 1, 1, 1],
 ]
 
 g = [
@@ -80,11 +97,14 @@ h = [
     [1, 1, 1, 1, 1, 1],
 ]
 
+j = [
+    [1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 1, 1],
+    [1, 0, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0, 1],
+    [1, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1],
+]
 
-f1 = buildFrame(g)
-f2 = buildFrame(f)
-f3 = buildFrame(h)
 
-
-while True:
-    simpleAnimate([f1, f2, f3], 0.3)
+loopAnimation(bulkFrameBuild(f, g, h, j), 0.3, 90)
