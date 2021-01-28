@@ -89,7 +89,7 @@ def animationFromFolder(folder, interval, duration):
     for frame in raw_frames:
         frames.append(frameFromFile(frame))
     frames = bulkFrameBuild(*frames)
-    loopAnimation(frames, 0.33, 30)
+    loopAnimation(frames, interval, duration)
 
 
 if __name__ == "__main__":
