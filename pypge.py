@@ -4,6 +4,7 @@ from itertools import islice, chain, repeat
 from os import system as cmd
 from time import sleep as slp
 from glob import glob
+from PIL import Image
 
 
 def rowGrouper(it, size, padval=None):
@@ -112,7 +113,24 @@ def animationFromFolder(folder, interval, duration):
     loopAnimation(frames, interval, duration)
 
 
+def frameFromImage():
+    W = 255
+    im = Image.open("example.png")
+    pix = im.load()
+    print(im.size)  # Get the width and hight of the image for iterating over
+    for i in range(im.size[0]):
+        for j in range(im.size[1]):
+
+            if pix[i, j][0] == W and pix[i, j][0] == W and pix[i, j][0] == W:
+                print(pix[i, j], "white")
+            else:
+                print(pix[i, j], "black")
+
+
 if __name__ == "__main__":
+
+    frameFromImage()
+    input()
     # Manually Created Frames
     f = [
         [0, 0, 0, 1, 1, 1],
