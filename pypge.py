@@ -2,12 +2,13 @@
 import charmap as block
 from itertools import islice, chain, repeat
 from os import system as cmd
+from sys import argv as cliArgs
 from time import sleep as slp
 from glob import glob
 from PIL import Image
 
 
-def rowGrouper(it, size, padval=None):
+def rowGrouper(it, size, padval=0):
     """Row Grouper:
     Does:
         Groups items in an iterable in chunks of size n.
@@ -44,6 +45,16 @@ def renderFrame(frame):
 
 
 def buildFrame(array):
+    """Build Frame:
+    Does:
+        Builds an array of arrays containng the characters, from an array
+        of arrays with pixel values.
+    Takes:
+        Name:   Type:       Description:
+        array   list        Nested list with integer values.
+    Returns:
+        List of strings.
+    """
     frame = []
     grouped = rowGrouper(array, 2)
     # print(grouped)
@@ -106,31 +117,64 @@ def frameFromFile(filename):
 
 def animationFromFolder(folder, interval, duration):
     raw_frames = glob(folder + "/*.frame")
-    frames = []
-    for frame in raw_frames:
-        frames.append(frameFromFile(frame))
-    frames = bulkFrameBuild(*frames)
-    loopAnimation(frames, interval, duration)
+    raw_frames.sort()
+    img_frames = glob(folder + "/*.png")
+    img_frames.sort()
+    if len(raw_frames) == 0:
+        frames = []
+        for frame in img_frames:
+            frames.append(frameFromImage(frame))
+        frames = bulkFrameBuild(*frames)
+        loopAnimation(frames, interval, duration)
+    elif len(raw_frames) != 0:
+        frames = []
+        for frame in raw_frames:
+            frames.append(frameFromFile(frame))
+        frames = bulkFrameBuild(*frames)
+        loopAnimation(frames, interval, duration)
 
 
-def frameFromImage():
+def frameFromImage(path):
+    frame = []
     W = 255
-    im = Image.open("example.png")
+    im = Image.open(path)
     pix = im.load()
-    print(im.size)  # Get the width and hight of the image for iterating over
-    for i in range(im.size[0]):
-        for j in range(im.size[1]):
-
-            if pix[i, j][0] == W and pix[i, j][0] == W and pix[i, j][0] == W:
-                print(pix[i, j], "white")
+    # print(im.size)  # Get the width and hight of the image for iterating over
+    for j in range(im.size[0]):
+        r = []
+        for i in range(im.size[1]):
+            if pix[i, j][0] == W and pix[i, j][1] == W and pix[i, j][2] == W:
+                r.append(0)
+                # print(i, j, 0)
             else:
-                print(pix[i, j], "black")
+                # print(i, j, 1)
+                r.append(1)
+        frame.append(r)
+    return frame
+
+
+def cliFn():
+    """Command Line Interface:
+    Does:
+        Parses command line arguments and flags.
+    Takes:
+        Name:   Type:       Description:
+        None    None        N/A.
+    Returns:
+        None.
+    """
+    print(len(cliArgs), cliArgs)
 
 
 if __name__ == "__main__":
 
-    frameFromImage()
-    input()
+    cliFn()
+    exit()
+    # f = frameFromImage("example.png")
+    animationFromFolder("test_animation_by_images", 0.5, 10)
+    # print(len(f))
+    # f = buildFrame(f)
+    # renderFrame(f)
     # Manually Created Frames
     f = [
         [0, 0, 0, 1, 1, 1],
