@@ -8,6 +8,14 @@ from glob import glob
 from PIL import Image
 
 
+def saveToFrame(fn, frame):
+    pass
+
+
+def saveToMovie(fn, frames, interval, duration):
+    pass
+
+
 def rowGrouper(it, size, padval=0):
     """Row Grouper:
     Does:
@@ -157,60 +165,29 @@ def cliFn():
     """Command Line Interface:
     Does:
         Parses command line arguments and flags.
+        Flags:
+            Name:       Usage:
+            --dir, -d   Path to image or frame directory.
+            --img, -i   Animate from Images (B/W only)
+            --frm, -f   Animate from Plain text . frame files.
+            --help, -h  Display help text and usage guide
+        Flag order:
+            --dir /path/ (--img/--frm)
+            --help
     Takes:
         Name:   Type:       Description:
         None    None        N/A.
     Returns:
         None.
     """
-    print(len(cliArgs), cliArgs)
+    if cliArgs[1] == "--dir" and cliArgs[3] != "":
+        print("gay")
+    elif cliArgs[1] in ("-h", "--help"):
+        print("Help text goes here")
 
 
 if __name__ == "__main__":
 
-    cliFn()
-    exit()
-    # f = frameFromImage("example.png")
-    animationFromFolder("test_animation_by_images", 0.5, 10)
-    # print(len(f))
-    # f = buildFrame(f)
-    # renderFrame(f)
-    # Manually Created Frames
-    f = [
-        [0, 0, 0, 1, 1, 1],
-        [0, 0, 1, 1, 1, 1],
-        [1, 0, 1, 1, 1, 1],
-        [0, 0, 1, 1, 1, 1],
-        [0, 0, 1, 1, 1, 1],
-        [0, 0, 0, 1, 1, 1],
-    ]
-
-    g = [
-        [0, 0, 0, 1, 0, 1],
-        [1, 1, 0, 1, 0, 0],
-        [1, 0, 1, 1, 0, 1],
-        [0, 1, 1, 1, 1, 1],
-        [1, 0, 1, 1, 0, 1],
-        [1, 1, 0, 1, 0, 1],
-    ]
-
-    h = [
-        [1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1],
-    ]
-
-    j = [
-        [1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1, 1],
-        [1, 0, 0, 1, 0, 1],
-        [1, 0, 1, 0, 0, 1],
-        [1, 1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1],
-    ]
-    loopAnimation(bulkFrameBuild(f, g, h, j), 0.33, 5)
+    # cliFn()
     # From folder
-    animationFromFolder("test_animation", 0.2, 5)
+    #animationFromFolder("test_animation", 0.2, 5)
