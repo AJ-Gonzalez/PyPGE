@@ -9,6 +9,16 @@ from PIL import Image
 
 
 def saveToFrame(fn, frame):
+    """Build Frame:
+    Does:
+        Builds an array of arrays containng the characters, from an array
+        of arrays with pixel values.
+    Takes:
+        Name:   Type:       Description:
+        array   list        Nested list with integer values.
+    Returns:
+        List of strings.
+    """
     pass
 
 
