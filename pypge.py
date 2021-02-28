@@ -134,7 +134,7 @@ def frameFromFile(filename):
 
 
 def animationFromFolder(folder, interval, duration):
-    raw_frames = glob(folder + "/*.frame")
+    raw_frames = glob(folder + "/*.stmf")
     raw_frames.sort()
     img_frames = glob(folder + "/*.png")
     img_frames.sort()
@@ -176,7 +176,7 @@ def cliFn():
     Does:
         Parses command line arguments and flags.
         Flags:
-            Name:       Usage:
+            Name:       Action:
             --dir, -d   Path to image or frame directory.
             --img, -i   Animate from Images (B/W only)
             --frm, -f   Animate from Plain text . frame files.
@@ -190,14 +190,37 @@ def cliFn():
     Returns:
         None.
     """
-    if cliArgs[1] == "--dir" and cliArgs[3] != "":
+    helpText="""Welcome to PyPGE:
+
+    A simple and naive Python Pseudo-Graphics Engine.
+    Built with pure python, can render ASCII pseudo-graphics
+    using the Unicode block characters.
+
+    PyPGE can be used as a module in your Python code, or as
+    a CLI application.
+
+    PyPGE CLI Flags:
+    Name:       Action:
+    --dir, -d   Path to image or frame directory.
+    --img, -i   Animate from Images (B/W only)
+    --frm, -f   Animate from Plain text . frame files.
+    --help, -h  Display help text and usage guide
+    """
+    #print(cliArgs)
+    if len(cliArgs) == 1:
+        print('Use --help to see the available command line arguments')
+    elif cliArgs[1] == "--dir" or cliArgs[1] == "--dir" and cliArgs[2] != "":
         print("gay")
     elif cliArgs[1] in ("-h", "--help"):
-        print("Help text goes here")
+        print(helpText)
+    else:
+        print('Command not found')
+        print('Use --help to see the available command line arguments')
 
 
 if __name__ == "__main__":
 
-    # cliFn()
+    cliFn()
     # From folder
     #animationFromFolder("test_animation", 0.2, 5)
+    pass
