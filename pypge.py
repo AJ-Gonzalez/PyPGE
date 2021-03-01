@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import platform
 import charmap as block
 from itertools import islice, chain, repeat
 from os import system as cmd
@@ -7,6 +8,20 @@ from time import sleep as slp
 from glob import glob
 from PIL import Image
 
+def detectOS():
+    system=platform.system()
+    if system == 'Windows':
+        return 'cls'
+    else:
+        return 'clear'
+
+# GLOBAL clear command
+
+clear_command=detectOS()
+
+def clear():
+    cmd(clear_command)
+    
 
 def saveToFrame(fn, frame):
     """Build Frame:
@@ -101,11 +116,11 @@ def simpleAnimate(frames, interval):
     for frame in frames:
         renderFrame(frame)
         slp(interval)
-        cmd("clear")
+        clear()
 
 
 def loopAnimation(frames, interval, duration):
-    cmd("clear")
+    clear()
     frame_time = duration / (interval * len(frames))
     # print(frame_time, interval, duration)
     count = 0
@@ -219,6 +234,7 @@ def cliFn():
 
 
 if __name__ == "__main__":
+    detectOS()
 
     cliFn()
     # From folder
